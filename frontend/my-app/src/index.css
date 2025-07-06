@@ -1,0 +1,84 @@
+/* This is your required line. It must be at the very top. */
+@import "tailwindcss";
+
+/* 
+==================================================
+--- CUSTOM BACKPACK-INSPIRED STYLES START HERE ---
+==================================================
+*/
+
+/* --- 1. Global Body & Font Styles --- */
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #101010; /* Use the raw color here for the base */
+  color: #f5f5f5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- 2. Subtle Noise Background --- */
+.noise-background {
+  position: relative;
+  overflow: hidden;
+}
+
+.noise-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+}
+
+/* --- 3. The Form Card --- */
+.backpack-card {
+  position: relative;
+  z-index: 1; /* Keep card above the noise background */
+  background-color: #181818;
+  border: 1px solid #333333;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* --- 4. Custom Inputs --- */
+.backpack-input {
+  background-color: #101010;
+  border: 1px solid #333333;
+  transition: all 0.2s ease-in-out;
+  caret-color: #ff3b3b;
+}
+
+/* The focus state is key: it creates a double border/glow effect */
+.backpack-input:focus {
+  outline: none;
+  border-color: #ff3b3b;
+  box-shadow: 0 0 0 3px rgba(255, 59, 59, 0.2);
+}
+
+.backpack-input::placeholder {
+  color: #666666;
+}
+
+/* --- 5. Custom Button --- */
+.backpack-button {
+  background-color: #ff3b3b;
+  color: #ffffff;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.backpack-button:hover:not(:disabled) {
+  background-color: #ff5c5c;
+  box-shadow: 0 0 20px rgba(255, 59, 59, 0.4);
+  transform: translateY(-2px);
+}
+
+.backpack-button:active:not(:disabled) {
+  transform: translateY(0);
+  background-color: #e63535;
+}
