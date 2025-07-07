@@ -6,7 +6,7 @@ const { Keypair,Connection, PublicKey, clusterApiUrl, LAMPORTS_PER_SOL } = requi
 const CryptoJS = require('crypto-js');
 const bs58 = require('bs58');
 
-const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+const connection = new Connection(process.env.RPC_URL, "confirmed");
 
 const airdropSolToAccount = async (publicKeyBase58) => {
     const publicKey = new PublicKey(publicKeyBase58);
@@ -15,8 +15,7 @@ const airdropSolToAccount = async (publicKeyBase58) => {
         console.log("airdroping 0")
       const sig = await connection.requestAirdrop(publicKey, LAMPORTS_PER_SOL);
       console.log("airdroping 01")
-      await connection.confirmTransaction({signature:sig});
-      console.log("airdroping 011")
+      
       return sig;
     } catch (err) {
         console.log(err.message)
