@@ -47,7 +47,7 @@ function App() {
         
     }
   else {
-    setWalletCheckDone(true); // if not logged in, we’re done too
+    setWalletCheckDone(true); 
   }
   
 

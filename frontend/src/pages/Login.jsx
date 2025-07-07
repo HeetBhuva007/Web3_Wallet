@@ -53,16 +53,11 @@ const LoginPage = () => {
     catch(err){
         setBackendError("Invalid credentials. Please check and try again.");
     }
-    // await new Promise(resolve => setTimeout(resolve, 1500));
-    // if (data.email === "user@example.com" && data.password === "password123") {
-    //   navigate('/home');
-    // } else {
-    //   setBackendError("Invalid credentials. Please check and try again.");
-    // }
+    
   };
 
   return (
-    // Apply the noise background and use Tailwind colors from our config
+    
     <div className="flex items-center justify-center min-h-screen p-4 font-mono noise-background">
       
       {/* The main form card using our new class */}
@@ -122,7 +117,7 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              // Apply the new button class
+              
               className="w-full flex items-center justify-center px-4 py-3 rounded-lg backpack-button disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (

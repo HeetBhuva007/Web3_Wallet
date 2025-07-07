@@ -4,12 +4,7 @@ import { Plus, Send, Droplets, Copy, LoaderCircle, KeyRound, Wallet, User, X, Ch
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../authSlice';
 
-// --- Helper Components & Functions ---
-// const getNetworkIcon = (publicKey) => {
-//     if (!publicKey) return null;
-//     if (publicKey.startsWith('So')) return <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6"><title>Solana</title><path d="M6.236 18.046l-4.502-2.652 4.502-2.651 4.502 2.651-4.502 2.652zm.006-6.61L1.74 8.784l4.502-2.651 4.502 2.651-4.502 2.652zm11.522 6.61l-4.502-2.652 4.502-2.651 4.502 2.651-4.502 2.652zm.006-6.61l-4.502-2.652 4.502-2.651 4.502 2.651-4.502 2.652zM6.242 11.22l4.502-2.651 4.502 2.651-4.502 2.652-4.502-2.652z" fill="#f5f5f5"/></svg>;
-//     return <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6"><title>Ethereum</title><path d="M11.944 17.97L4.58 13.62l7.364-4.354 7.364 4.353-7.364 4.35zm.004-17.97L4.58 12.278l7.368 4.35L19.315 12.28 11.948 0z" fill="#f5f5f5"/></svg>;
-// };
+
 const truncateAddress = (address) => !address ? '' : `${address.slice(0, 6)}...${address.slice(-4)}`;
 
 // --- The Main Dashboard Component ---

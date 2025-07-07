@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Buffer } from 'buffer';
-window.Buffer = Buffer; // Required for bip39/crypto libraries in some browser environments
+window.Buffer = Buffer; 
 import * as bip39 from 'bip39';
 import CryptoJS from 'crypto-js';
 import { Wallet, Copy, AlertTriangle, ChevronRight, Lock, LoaderCircle } from 'lucide-react';
@@ -12,7 +12,6 @@ const CreateWalletPage = () => {
   const [isGenerated, setIsGenerated] = useState(false);
   const [copySuccess, setCopySuccess] = useState('');
   
-  // --- NEW STATE FOR PASSWORD AND LOADING ---
   const [password, setPassword] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
@@ -26,8 +25,7 @@ const CreateWalletPage = () => {
 
   // --- UPDATED CONFIRM HANDLER ---
   const handleConfirm = async (e) => {
-    e.preventDefault(); // Prevent form submission from reloading page
-
+    e.preventDefault(); 
     if (password.length < 8) {
       alert("Password must be at least 8 characters long.");
       return;
@@ -63,7 +61,7 @@ const CreateWalletPage = () => {
     <div className="flex items-center justify-center min-h-screen p-4 font-mono noise-background text-text-color">
       <div className="w-full max-w-lg p-8 space-y-6 text-center transition-all duration-500 backpack-card">
         {!isGenerated ? (
-          // --- View 1: Initial Prompt ---
+          
           <>
             <div className="flex justify-center"><Wallet size={48} className="text-brand-red" /></div>
             <h1 className="text-2xl font-bold text-white">Create a New Wallet</h1>
@@ -71,7 +69,7 @@ const CreateWalletPage = () => {
             <div className="pt-4"><button onClick={handleGenerateSeed} className="w-full max-w-xs mx-auto backpack-button">Create New Wallet</button></div>
           </>
         ) : (
-          // --- View 2: Display Seed, Get Password, and Confirm ---
+         
           <>
             <h1 className="text-2xl font-bold text-white">Your Secret Phrase</h1>
             <p className="text-sm text-gray-400">This is your master key. Write it down in a safe place.</p>

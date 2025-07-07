@@ -18,15 +18,15 @@ const RegisterPage = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm(); // No resolver needed for built-in validation
+  } = useForm(); 
   useEffect(()=>{
     if(isAuthenticated)
         navigate('/createWallet')
   },[isAuthenticated])
   const onSubmit = async (data) => {
-    setApiError(null); // Clear previous errors
+    setApiError(null);
     try {
-      // Dispatch the register action
+      
       dispatch(registerUser({...data}))
 
       
