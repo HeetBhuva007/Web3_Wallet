@@ -39,7 +39,12 @@ const register = async (req, res) => {
             _id:user._id
         }
 
-        res.cookie('token',token,{maxAge:60*60*1000});
+        res.cookie('token',token,{
+            httpOnly: true,
+            secure: true,          
+            sameSite: 'None',      
+            maxAge: 60 * 60 * 1000});
+            
         res.status(200).json({
             user:reply,
             message:"Registered Successfully"
@@ -85,6 +90,7 @@ const login=async (req,res)=>{
             secure: true,          
             sameSite: 'None',      
             maxAge: 60 * 60 * 1000});
+
         res.status(200).json({
             user:reply,
             message:"Logged In Successfully"
