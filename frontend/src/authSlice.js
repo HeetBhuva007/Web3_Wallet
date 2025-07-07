@@ -42,7 +42,9 @@ export const checkAuth = createAsyncThunk(
   'auth/check',
   async (_, { rejectWithValue }) => {
     try {
+      console.log("heihib")
       const { data } = await axiosClient.get('/user/check-auth');
+      console.log(data.user)
       //token has been sent by browser.......
       return data.user;
     } catch (error) {
