@@ -15,25 +15,11 @@ const cors=require('cors')
 app.use(express.json());
 app.use(cookieParser());
 
-// app.use(cors({
-//   origin: 'https://web3wallet-opal.vercel.app',
-//   credentials: true,
-// }));
-const allowedOrigins = [
-  'https://web3wallet-opal.vercel.app', // your Vercel frontend
-  'http://localhost:5173'               // for local dev only
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true
+  origin: 'https://web3wallet-opal.vercel.app',
+  credentials: true,
 }));
+
 
 app.use('/user',authRouter)
 app.use('/transaction',transactionRouter);
