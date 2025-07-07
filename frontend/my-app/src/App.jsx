@@ -16,29 +16,42 @@ function App() {
   const {isAuthenticated,user}=useSelector(state=>state.auth)
   const dispatch=useDispatch();
   const [hasWallet,sethasWallet]=useState(false)
+  const [isWalletCheckDone, setWalletCheckDone] = useState(false);
+
+
   useEffect(()=>{
     dispatch(checkAuth())
   },[dispatch])
   useEffect(()=>{
     if(isAuthenticated){
-    const check=async()=>{
-        try{
-        const response = await axiosClient.get("/wallet/getWallet")
-        console.log(response)
-        if (response.data.wallet) {
-            sethasWallet(true)// Wallet exists
-        }
+      const check=async()=>{
+          try{
+          const response = await axiosClient.get("/wallet/getWallet")
+          console.log(response)
+          if (response.data.wallet) {
+              sethasWallet(true)// Wallet exists
+          }
 
-    }
-    catch(err){
-        sethasWallet(false)
-    }
-}
-check();
+      }
+      catch(err){
+          sethasWallet(false)
+      }
+      finally {
+        setWalletCheckDone(true);
+      }
     
-}
+    }
+    check();
+        
+    }
+  else {
+    setWalletCheckDone(true); // if not logged in, we’re done too
+  }
+  
+
 },[isAuthenticated])
     
+  if (!isWalletCheckDone) return <div className="text-white p-4">Loading...</div>;
 
   return (
     <>
