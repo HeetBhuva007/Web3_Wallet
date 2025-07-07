@@ -91,7 +91,6 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Register User Cases
   
       // Login User Cases
       .addCase(loginUser.pending, (state) => {

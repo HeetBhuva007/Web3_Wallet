@@ -30,10 +30,10 @@ app.use('/account',accountRouter)
 const connectionInitialization = async () => {
     try {
       await reddisClient.connect();
-      console.log("Redis connected");
+      
   
       await main();
-      console.log("MongoDB connected");
+     
   
       const PORT = process.env.PORT
       app.listen(PORT, () => {

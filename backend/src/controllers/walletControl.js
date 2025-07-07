@@ -12,13 +12,13 @@ const airdropSolToAccount = async (publicKeyBase58) => {
     const publicKey = new PublicKey(publicKeyBase58);
   
     try {
-        console.log("airdroping 0")
+        
       const sig = await connection.requestAirdrop(publicKey, LAMPORTS_PER_SOL);
-      console.log("airdroping 01")
+      
       
       return sig;
     } catch (err) {
-        console.log(err.message)
+        
       throw new Error(`Airdrop failed: ${err.message}`);
     }
 }
@@ -81,26 +81,14 @@ const createAccount=async(req,res)=>{
         if (!wallet || !wallet.encryptedSeed) {
         return res.status(400).json({ message: "Wallet not found or missing seed" });
         }
-        //const encryptedSeed="U2FsdGVkX1+N5Kjgz6rfk1XpF7zqKvHw5HZDZQykHus7CUh1JjmyYrrE+6F7AYU5ah2z+bdG6YyDCenJARzG6DXZlPceFwSeIjZDRrhQQq8="
-
-        console.log(wallet.encryptedSeed)
-        console.log(password)
+       
 
         const decryptedMnemonic = CryptoJS.AES.decrypt(wallet.encryptedSeed, password).toString(CryptoJS.enc.Utf8);
-        // const trimmed=decryptedMnemonic
-        // .normalize("NFKD")
-        // .replace(/\s+/g, " ") // collapse all spaces/tabs/newlines into single space
-        // .trim();
-        // console.log("Words:", decryptedMnemonic.trim().split(/\s+/));
-        // console.log("CHAR CODES:", [...decryptedMnemonic].map(c => c.charCodeAt(0)));
-        // console.log(decryptedMnemonic||"no")
-        // if (!bip39.validateMnemonic(trimmed)) {
-        // return res.status(401).json({ message: "Invalid password or corrupted seed" });
-        // }
+        
 
         const lastAccount = await Account.find({ walletId }).sort({ derivationIndex: -1 }).limit(1);
         const derivationIndex = lastAccount.length > 0 ? lastAccount[0].derivationIndex + 1 : 0;
-        console.log("hello token1")
+        
         const seed = await bip39.mnemonicToSeed(decryptedMnemonic);
         const path = `m/44'/501'/${derivationIndex}'/0'`;
         const { key } = derivePath(path, seed.toString("hex"));
@@ -110,7 +98,7 @@ const createAccount=async(req,res)=>{
         const secretKey = bs58.encode(keypair.secretKey);
 
         const encryptedPrivateKey = CryptoJS.AES.encrypt(secretKey, password).toString();
-        console.log("hello token11")
+        
         const account = await Account.create({
             userId,
             walletId,
@@ -118,7 +106,7 @@ const createAccount=async(req,res)=>{
             encryptedPrivateKey,
             derivationIndex
         });
-        console.log("hello token111")
+        
 
         await airdropSolToAccount(publicKey);
 

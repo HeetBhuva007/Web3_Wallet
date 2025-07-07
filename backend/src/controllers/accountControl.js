@@ -22,17 +22,17 @@ const getBalance=async(req,res)=>{
 const getPrivKey=async(req,res)=>{
     try{
         const { publicKey, password } = req.body;
-        console.log("new")
+        
         if (!publicKey || !password) {
             return res.status(400).json({ error: 'Public key and password are required' });
           }
-          console.log("new2")
+         
         const account = await Account.findOne({ publicKey });
         if (!account) return res.status(404).json({ error: 'Account not found' });
-        console.log("new3")
+       
         const encrypted = account.encryptedPrivateKey; // base64 string
         const decrypted = CryptoJS.AES.decrypt(encrypted, password);
-        console.log("new4")
+        
         const privateKey = decrypted.toString(CryptoJS.enc.Utf8);
 
         if (!privateKey) return res.status(401).json({ error: 'Incorrect password' });

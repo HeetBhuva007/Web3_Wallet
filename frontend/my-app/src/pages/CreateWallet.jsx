@@ -41,7 +41,7 @@ const CreateWalletPage = () => {
       // Your existing API call, now sending a proper JSON object
       await axiosClient.post('/wallet/createWallet', { encryptedSeed });
       
-      console.log("Wallet created successfully, navigating to dashboard.");
+     
       navigate('/dashboard');
 
     } catch (err) {

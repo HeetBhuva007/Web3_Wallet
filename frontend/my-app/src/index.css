@@ -1,22 +1,15 @@
-/* This is your required line. It must be at the very top. */
+
 @import "tailwindcss";
 
-/* 
-==================================================
---- CUSTOM BACKPACK-INSPIRED STYLES START HERE ---
-==================================================
-*/
-
-/* --- 1. Global Body & Font Styles --- */
 body {
   font-family: 'JetBrains Mono', monospace;
-  background-color: #101010; /* Use the raw color here for the base */
+  background-color: #101010; 
   color: #f5f5f5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- 2. Subtle Noise Background --- */
+
 .noise-background {
   position: relative;
   overflow: hidden;
@@ -35,17 +28,16 @@ body {
   opacity: 0.04;
 }
 
-/* --- 3. The Form Card --- */
+
 .backpack-card {
   position: relative;
-  z-index: 1; /* Keep card above the noise background */
+  z-index: 1; 
   background-color: #181818;
   border: 1px solid #333333;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* --- 4. Custom Inputs --- */
 .backpack-input {
   background-color: #101010;
   border: 1px solid #333333;
@@ -53,7 +45,7 @@ body {
   caret-color: #ff3b3b;
 }
 
-/* The focus state is key: it creates a double border/glow effect */
+
 .backpack-input:focus {
   outline: none;
   border-color: #ff3b3b;
@@ -64,7 +56,7 @@ body {
   color: #666666;
 }
 
-/* --- 5. Custom Button --- */
+
 .backpack-button {
   background-color: #ff3b3b;
   color: #ffffff;

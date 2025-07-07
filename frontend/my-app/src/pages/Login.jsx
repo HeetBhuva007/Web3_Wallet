@@ -21,12 +21,12 @@ const LoginPage = () => {
   } = useForm();
 
   useEffect(() => {
-    console.log(user)
+    
     if(isAuthenticated){
         const check=async()=>{
             try{
             const response = await axiosClient.get("/wallet/getWallet")
-            console.log(response)
+            
             if (response.data.wallet) {
                 navigate("/dashboard"); // Wallet exists
             }

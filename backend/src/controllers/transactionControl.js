@@ -34,32 +34,32 @@ const sendSol=async(req,res)=>{
     try{
         const { accountId, password, toAddress, amount } = req.body;
         const userId = req.result._id;
-console.log("1")
+
         const account = await Account.findOne({ _id: accountId, userId });
         if (!account) {
         return res.status(404).json({ message: "Account not found" });
         }
-        console.log("2")
+       
         const decryptedSecretKeyBase58 = CryptoJS.AES.decrypt(
         account.encryptedPrivateKey,
         password
         ).toString(CryptoJS.enc.Utf8);
-        console.log("3")
+       
 
         if (!decryptedSecretKeyBase58) {
             return res.status(401).json({ message: "Incorrect password or corrupted key" });
           }
-          console.log("4")
+          
           const secretKey = bs58.decode(decryptedSecretKeyBase58);
           const senderKeypair = Keypair.fromSecretKey(secretKey);
           
           const balanceLamports = await connection.getBalance(senderKeypair.publicKey);
           const balanceSol = balanceLamports / LAMPORTS_PER_SOL;
-          console.log("5")
+          
           if (balanceSol < parseFloat(amount)) {
                   return res.status(400).json({ message: "Insufficient balance" });
           }
-          console.log("6")
+          
 
           const transaction = new Transaction().add(
             SystemProgram.transfer({
@@ -68,9 +68,9 @@ console.log("1")
               lamports: parseFloat(amount) * LAMPORTS_PER_SOL,
             })
           );
-          console.log("7")
+          
           const signature = await sendAndConfirmTransaction(connection, transaction, [senderKeypair]);
-          console.log("8")
+         
           await transactions.create({
             userId,
             walletId: account.walletId,
@@ -88,7 +88,7 @@ console.log("1")
         });
     }
     catch(err){
-      console.log(err.message)
+      
         res.json({message:err.message})
     }
 }

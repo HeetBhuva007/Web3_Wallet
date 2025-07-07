@@ -27,7 +27,7 @@ function App() {
       const check=async()=>{
           try{
           const response = await axiosClient.get("/wallet/getWallet")
-          console.log(response)
+          
           if (response.data.wallet) {
               sethasWallet(true)// Wallet exists
           }
