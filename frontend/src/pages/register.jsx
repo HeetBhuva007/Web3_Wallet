@@ -32,6 +32,7 @@ const RegisterPage = () => {
       
 
     } catch (error) {
+      
       console.error("Registration failed:", error);
       setApiError(error.message || 'An unexpected error occurred.');
     }
