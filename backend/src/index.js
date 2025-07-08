@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: 'https://web3wallet-opal.vercel.app',
+  origin: ['https://web3wallet-opal.vercel.app','http://localhost:5173'],
   credentials: true,
 }));
 
