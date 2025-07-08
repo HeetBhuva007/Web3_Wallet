@@ -87,19 +87,40 @@ const RegisterPage = () => {
 
           {/* Password Input with built-in validation */}
           <div className="relative">
-            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
-            <input
-              id="password"
-              type="password"
-              placeholder="Password"
-              {...register('password', {
-                required: 'Password is required',
-                minLength: { value: 8, message: 'Password must be at least 8 characters' }
-              })}
-              className={`w-full pl-12 pr-4 py-3 text-sm rounded-lg backpack-input ${errors.password ? 'border-brand-red' : 'border-border-color'}`}
-            />
-            {errors.password && <p className="mt-2 text-xs text-brand-red">{errors.password.message}</p>}
-          </div>
+  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
+  <input
+    id="password"
+    type="password"
+    placeholder="Password"
+    {...register('password', {
+      required: 'Password is required',
+      minLength: {
+        value: 8,
+        message: 'Password must be at least 8 characters'
+      },
+      validate: {
+        hasUpper: (v) => /[A-Z]/.test(v) || "Must include an uppercase letter",
+        hasLower: (v) => /[a-z]/.test(v) || "Must include a lowercase letter",
+        hasNumber: (v) => /[0-9]/.test(v) || "Must include a number",
+        hasSpecial: (v) => /[!@#$%^&*]/.test(v) || "Must include a special character"
+      }
+    })}
+    className={`w-full pl-12 pr-4 py-3 text-sm rounded-lg backpack-input ${
+      errors.password ? 'border-brand-red' : 'border-border-color'
+    }`}
+  />
+  {errors.password && (
+    <p className="mt-2 text-xs text-brand-red">{errors.password.message}</p>
+  )}
+  <ul className="text-xs text-gray-400 mt-1 ml-1 leading-relaxed">
+    <li>• Minimum 8 characters</li>
+    <li>• At least 1 uppercase letter</li>
+    <li>• At least 1 lowercase letter</li>
+    <li>• At least 1 number</li>
+    <li>• At least 1 special character (!@#$%^&*)</li>
+  </ul>
+</div>
+
           
           {/* API Error Display */}
           {apiError && (
