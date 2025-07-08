@@ -1,36 +1,66 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, Mail, Lock, UserPlus, LoaderCircle } from 'lucide-react';
+import { 
+  User, 
+  Mail, 
+  Lock, 
+  UserPlus, 
+  LoaderCircle, 
+  CheckCircle2, 
+  XCircle 
+} from 'lucide-react';
 import { registerUser } from '../authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-
+// --- Helper for Password Validation ---
+const passwordCriteria = [
+  { label: 'At least 8 characters', test: (v) => v.length >= 8 },
+  { label: 'One uppercase letter (A–Z)', test: (v) => /[A-Z]/.test(v) },
+  { label: 'One lowercase letter (a–z)', test: (v) => /[a-z]/.test(v) },
+  { label: 'One number (0–9)', test: (v) => /[0-9]/.test(v) },
+  { label: 'One special character (!@#$%^&*)', test: (v) => /[!@#$%^&*(),.?":{}|<>]/.test(v) },
+];
 
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [apiError, setApiError] = useState(null);
-  const {isAuthenticated}=useSelector(state=>state.auth)
+  const { isAuthenticated } = useSelector(state => state.auth);
 
   const {
     register,
     handleSubmit,
+    watch, 
     formState: { errors, isSubmitting },
-  } = useForm(); 
-  useEffect(()=>{
-    if(isAuthenticated)
-        navigate('/createWallet')
-  },[isAuthenticated])
+  } = useForm({ mode: 'onTouched' }); 
+
+  const password = watch('password', '');
+
+
+  const strengthScore = passwordCriteria.reduce((acc, criterion) => {
+    return acc + (criterion.test(password) ? 1 : 0);
+  }, 0);
+  
+  
+  const getStrength = () => {
+    if (strengthScore < 3) return { text: 'Weak', color: 'bg-brand-red', width: 'w-1/3' };
+    if (strengthScore < 5) return { text: 'Medium', color: 'bg-yellow-500', width: 'w-2/3' };
+    return { text: 'Strong', color: 'bg-green-500', width: 'w-full' };
+  };
+  const strength = getStrength();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/createWallet');
+    }
+  }, [isAuthenticated, navigate]);
+
   const onSubmit = async (data) => {
     setApiError(null);
     try {
-      
-      dispatch(registerUser({...data}))
-
-      
-
+       dispatch(registerUser({ ...data }));
     } catch (error) {
       
       console.error("Registration failed:", error);
@@ -50,7 +80,7 @@ const RegisterPage = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Username Input with built-in validation */}
+          {/* Username Input */}
           <div className="relative">
             <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
             <input
@@ -66,7 +96,7 @@ const RegisterPage = () => {
             {errors.userName && <p className="mt-2 text-xs text-brand-red">{errors.userName.message}</p>}
           </div>
 
-          {/* Email Input with built-in validation */}
+          {/* Email Input */}
           <div className="relative">
             <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
             <input
@@ -85,42 +115,53 @@ const RegisterPage = () => {
             {errors.emailId && <p className="mt-2 text-xs text-brand-red">{errors.emailId.message}</p>}
           </div>
 
-          {/* Password Input with built-in validation */}
-          <div className="relative">
-  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
-  <input
-    id="password"
-    type="password"
-    placeholder="Password"
-    {...register('password', {
-      required: 'Password is required',
-      minLength: {
-        value: 8,
-        message: 'Password must be at least 8 characters'
-      },
-      validate: {
-        hasUpper: (v) => /[A-Z]/.test(v) || "Must include an uppercase letter",
-        hasLower: (v) => /[a-z]/.test(v) || "Must include a lowercase letter",
-        hasNumber: (v) => /[0-9]/.test(v) || "Must include a number",
-        hasSpecial: (v) => /[!@#$%^&*]/.test(v) || "Must include a special character"
-      }
-    })}
-    className={`w-full pl-12 pr-4 py-3 text-sm rounded-lg backpack-input ${
-      errors.password ? 'border-brand-red' : 'border-border-color'
-    }`}
-  />
-  {errors.password && (
-    <p className="mt-2 text-xs text-brand-red">{errors.password.message}</p>
-  )}
-  <ul className="text-xs text-gray-400 mt-1 ml-1 leading-relaxed">
-    <li>• Minimum 8 characters</li>
-    <li>• At least 1 uppercase letter</li>
-    <li>• At least 1 lowercase letter</li>
-    <li>• At least 1 number</li>
-    <li>• At least 1 special character (!@#$%^&*)</li>
-  </ul>
-</div>
+          {/* Password Input with Strength Meter and Criteria */}
+          <div className="space-y-3">
+            <div className="relative">
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
+              <input
+                id="password"
+                type="password"
+                placeholder="Password"
+                {...register('password', {
+                  required: 'Password is required',
+                  validate: {
+                    allCriteriaMet: v => passwordCriteria.every(c => c.test(v)) || 'Password does not meet all criteria.',
+                  }
+                })}
+                className={`w-full pl-12 pr-4 py-3 text-sm rounded-lg backpack-input ${errors.password ? 'border-brand-red' : 'border-border-color'}`}
+              />
+            </div>
 
+            {/* Password Strength Meter */}
+            {password.length > 0 && (
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                    <p className="font-medium text-gray-300">Password Strength:</p>
+                    <p className={`font-bold ${strength.text === 'Weak' ? 'text-brand-red' : strength.text === 'Medium' ? 'text-yellow-500' : 'text-green-500'}`}>{strength.text}</p>
+                </div>
+                <div className="w-full h-2 rounded-full bg-gray-700">
+                  <div className={`h-full rounded-full transition-all duration-300 ${strength.color} ${strength.width}`}></div>
+                </div>
+              </div>
+            )}
+            
+            {/* Final Validation Error Message from React Hook Form */}
+            {errors.password && <p className="text-xs text-brand-red">{errors.password.message}</p>}
+
+            {/* Dynamic Password Criteria Checklist */}
+            <div className="text-xs text-gray-400 space-y-1 pl-1">
+              {passwordCriteria.map((criterion, index) => {
+                const isMet = criterion.test(password);
+                return (
+                  <div key={index} className={`flex items-center transition-colors duration-300 ${isMet ? 'text-green-400' : 'text-gray-500'}`}>
+                    {isMet ? <CheckCircle2 className="h-4 w-4 mr-2 flex-shrink-0" /> : <XCircle className="h-4 w-4 mr-2 flex-shrink-0" />}
+                    <span>{criterion.label}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
           
           {/* API Error Display */}
           {apiError && (
