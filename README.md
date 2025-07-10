@@ -1,4 +1,4 @@
-# 💰 SolBank – Web-based Solana Wallet
+# 💰 SolBank – Web-based Solana Devnet Wallet
 
 **SolBank** is a secure, Phantom-inspired, web-based wallet for the **Solana blockchain**. Built using **React + Vite**, it enables users to generate wallets, request SOL airdrops (Devnet), send SOL transactions, and manage multiple accounts — all in-browser. It uses a custom **Alchemy RPC server** and handles encrypted key storage securely.
 
