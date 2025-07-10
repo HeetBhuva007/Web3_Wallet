@@ -28,6 +28,7 @@ const RegisterPage = () => {
   const dispatch = useDispatch();
   const [apiError, setApiError] = useState(null);
   const { isAuthenticated } = useSelector(state => state.auth);
+  const errorFromGlob=useSelector(state=>state.auth.error)
 
   const {
     register,
@@ -64,7 +65,7 @@ const RegisterPage = () => {
     } catch (error) {
       
       console.error("Registration failed:", error);
-      setApiError(error.message || 'An unexpected error occurred.');
+      setApiError(errorFromGlob.message || 'An unexpected error occurred.');
     }
   };
 
