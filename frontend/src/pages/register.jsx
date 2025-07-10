@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { registerUser } from '../authSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRef } from 'react';
 
 // --- Helper for Password Validation ---
 const passwordCriteria = [
@@ -29,6 +30,7 @@ const RegisterPage = () => {
   const [apiError, setApiError] = useState(null);
   const { isAuthenticated } = useSelector(state => state.auth);
   const errorFromGlob=useSelector(state=>state.auth.error)
+  let flag=useRef(0);
 
   const {
     register,
@@ -62,15 +64,18 @@ const RegisterPage = () => {
     setApiError(null);
     try {
        dispatch(registerUser({ ...data }));
+       flag.current=1;
     } catch (error) {
       
       console.error("Registration failed:", error);
-      setApiError(errorFromGlob.message || 'An unexpected error occurred.');
+      setApiError(error || 'An unexpected error occurred.');
     }
   };
   useEffect(()=>{
-    if (errorFromGlob?.message) {
-      setApiError(errorFromGlob.message);
+    
+    if (errorFromGlob&&flag.current==1) {
+      setApiError(errorFromGlob);
+      
     }
   },[errorFromGlob])
 
@@ -171,7 +176,7 @@ const RegisterPage = () => {
           
           {/* API Error Display */}
           {apiError && (
-             <div className="p-3 text-center text-sm text-brand-red bg-brand-red/10 rounded-lg border border-brand-red/30">
+             <div className="p-3 text-center text-red-500 text-sm text-brand-red bg-brand-red/10 rounded-lg border border-brand-red/30">
                 {apiError}
              </div>
           )}

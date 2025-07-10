@@ -44,15 +44,15 @@ const connectionInitialization = async () => {
       const PORT = process.env.PORT || 4001
       app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
-        setInterval(() => {
-            axios.get('https://web3-wallet-6s17.onrender.com/health')
-                .then(res => {
-                    console.log(`Health check successful`);
-                })
-                .catch(err => {
-                    console.error(`Health check failed`);
-                });
-        }, 8 * 60 * 1000);
+        // setInterval(() => {
+        //     axios.get('https://web3-wallet-6s17.onrender.com/health')
+        //         .then(res => {
+        //             console.log(`Health check successful`);
+        //         })
+        //         .catch(err => {
+        //             console.error(`Health check failed`);
+        //         });
+        // }, 8 * 60 * 1000);
       });
   
     }
