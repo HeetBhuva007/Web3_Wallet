@@ -68,6 +68,11 @@ const RegisterPage = () => {
       setApiError(errorFromGlob.message || 'An unexpected error occurred.');
     }
   };
+  useEffect(()=>{
+    if (errorFromGlob?.message) {
+      setApiError(errorFromGlob.message);
+    }
+  },[errorFromGlob])
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 font-mono noise-background text-text-color">
