@@ -21,13 +21,13 @@ function App() {
 
   useEffect(()=>{
     dispatch(checkAuth())
-    console.log("rfffefeeeeee")
+    
   },[dispatch])
   useEffect(()=>{
     if(isAuthenticated){
       const check=async()=>{
           try{
-            console.log("inside")
+            
           const response = await axiosClient.get("/wallet/getWallet")
           
           if (response.data.wallet) {
